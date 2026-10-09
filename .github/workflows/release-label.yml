@@ -1,0 +1,26 @@
+name: Check release label
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled, edited, ready_for_review]
+permissions:
+  pull-requests: read
+jobs:
+  label:
+    name: Release label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const {data: repo} = await github.rest.repos.get(context.repo);
+            const {data: pr} = await github.rest.pulls.get({...context.repo, pull_number: context.issue.number});
+            if (pr.base.ref !== repo.default_branch) return;
+            const labels = pr.labels.map(label => label.name);
+            const selected = labels.filter(label => ['major', 'minor', 'patch'].includes(label));
+            if (labels.includes('path')) {
+              core.setFailed('Use patch, not path, for a patch release.');
+            } else if (selected.length !== 1) {
+              core.setFailed('Choose exactly one release label: major, minor, or patch.');
+            } else {
+              core.notice(`This PR will create a ${selected[0]} release after merge.`);
+            }
