@@ -2,15 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderFixture } from '../scripts/preview.mjs';
 import { posts, tags } from '../scripts/fixtures.mjs';
-test('home uses published posts and native featured selections', async () => {
+test('home uses published posts and dynamic topic discovery', async () => {
   const html = await renderFixture('index', { context: 'home' });
   assert.match(html, /Exploring Sofka/);
   assert.match(html, /href="\/tag\/kubernetes\/"/);
-  assert.match(html, /id=['"]featured-title['"]/);
-  assert.doesNotMatch(
-    html,
-    /FOLLOW A READING TRAIL|id=['"]topics['"]|site-navigation|mobile-menu-toggle/,
-  );
+  assert.match(html, /id=['"]topics['"]/);
+  assert.doesNotMatch(html, /FOLLOW A READING TRAIL|site-navigation|mobile-menu-toggle/);
   const hero = html.match(/<div class="bp-lab"[\s\S]*?<\/section>/)?.[0];
   assert.ok(hero);
   assert.doesNotMatch(hero, /<a\b|<button\b/);
@@ -46,6 +43,8 @@ test('post retains Ghost content, comments and member access boundary', async ()
   const allowed = await renderFixture('post', { context: 'post', post: posts[0] });
   assert.match(allowed, /sofka --readonly/);
   assert.match(allowed, /id="discussion"/);
+  assert.match(allowed.match(/<header class="bp-article-intro"[\s\S]*?<\/header>/)[0], /data-share/);
+  assert.doesNotMatch(allowed.match(/<footer class="article-footer[\s\S]*?<\/footer>/)[0], /article-tags|data-share/);
   const denied = await renderFixture('post', {
     context: 'post',
     post: { ...posts[0], access: false, visibility: 'members' },
@@ -54,9 +53,18 @@ test('post retains Ghost content, comments and member access boundary', async ()
   assert.match(denied, /This post is for members only/);
 });
 
+test('discovery retains featured selections and respects publication icons', async () => {
+  const featured = await renderFixture('index', { custom: { discovery_layout: 'Featured posts' } });
+  assert.match(featured, /id="featured-title"/);
+  assert.doesNotMatch(featured, /id="topics"/);
+  const hidden = await renderFixture('index', { custom: { discovery_layout: 'Hidden' }, site: { icon: 'https://example.com/icon.png' } });
+  assert.doesNotMatch(hidden, /id="topics"|id="featured-title"|branding\/favicon/);
+});
+
 test('featured panel disappears without selections and imageless posts use generic artwork', async () => {
   const html = await renderFixture('index', {
     context: 'home',
+    custom: { discovery_layout: 'Featured posts' },
     fixturePosts: posts.map((post) => ({ ...post, featured: false })),
     posts: [{ ...posts[0], feature_image: null }],
   });

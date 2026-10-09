@@ -770,7 +770,7 @@
   max-width: 1000px;
   margin: auto;
 }
-#byte-playground .bp-reading aside > a {
+#byte-playground .bp-reading > [data-toc-container] > a {
   display: block;
   font-size: 11px;
   padding: 9px 0;
@@ -936,7 +936,7 @@
   grid-template-columns: 1fr;
   max-width: 760px;
 }
-#byte-playground .bp-shell.bp-focused aside {
+#byte-playground .bp-shell.bp-focused [data-toc-container] {
   display: none;
 }
 #byte-playground .bp-shell.bp-focused .bp-header nav {
@@ -1185,17 +1185,17 @@
     padding: 26px 23px;
     gap: 20px;
   }
-  #byte-playground .bp-reading aside {
+  #byte-playground .bp-reading > [data-toc-container] {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     border-bottom: 1px solid var(--bp-line);
     padding-bottom: 17px;
   }
-  #byte-playground .bp-reading aside > .bp-kicker {
+  #byte-playground .bp-reading > [data-toc-container] > .bp-kicker {
     width: 100%;
   }
-  #byte-playground .bp-reading aside > a {
+  #byte-playground .bp-reading > [data-toc-container] > a {
     padding: 6px 10px;
     border: 1px solid var(--bp-line);
     border-radius: 20px;

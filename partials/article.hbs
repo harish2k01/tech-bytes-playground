@@ -14,7 +14,7 @@
       {{#foreach authors}}<a href="{{url}}">{{name}}</a>{{/foreach}}<span>·</span
       ><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time><span>·</span
       ><span>{{reading_time}}</span
-      ><button data-focus aria-pressed="false" hidden>Focus mode</button>
+      ><button data-share hidden>Share this byte ↗</button><button data-focus aria-pressed="false" hidden>Focus mode</button>
     </div>
     {{/is}}
   </header>
@@ -47,8 +47,6 @@
   </div>
   {{#is "post"}}
   <footer class="article-footer content-width">
-    <div class="article-tags">{{tags}}</div>
-    <button data-share hidden>Share this byte ↗</button>
     <div class="post-navigation">
       {{#prev_post}}<a href="{{url}}"><small>PREVIOUS BYTE</small>{{title}} ←</a
       >{{/prev_post}}{{#next_post}}<a href="{{url}}"

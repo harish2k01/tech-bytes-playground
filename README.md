@@ -42,7 +42,7 @@ The existing `custom-full-feature-image`, `custom-narrow-feature-image`, and `cu
 
 ## Automatic releases
 
-Release publication uses a repository-installed GitHub App so releases and tags have a separate bot identity. Configure the Actions variable `RELEASE_APP_ID` and secret `RELEASE_APP_PRIVATE_KEY`. Grant the App **Contents: read/write**, **Workflows: read/write**, and **Pull requests: read**; install it only on the repositories it should manage. The Workflows permission is needed when reserving tags for revisions that add or change workflow files. GitHub's built-in token cannot grant that permission. See [GitHub App authentication](https://docs.github.com/en/enterprise-cloud%40latest/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow).
+Release publication uses a repository-installed GitHub App so releases and tags have a separate bot identity. Configure the Actions repository secrets `RELEASE_APP_ID` and `RELEASE_APP_PRIVATE_KEY`. Grant the App **Contents: read/write**, **Workflows: read/write**, and **Pull requests: read**; install it only on the repositories it should manage. The Workflows permission is needed when reserving tags for revisions that add or change workflow files. GitHub's built-in token cannot grant that permission. See [GitHub App authentication](https://docs.github.com/en/enterprise-cloud%40latest/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow).
 
 Every PR targeting the repository's default branch requires exactly one `major`, `minor`, or `patch` label. Other labels are allowed. `path` is a typo and fails the check. A merged PR triggers validation, packaging, and publication of a GitHub Release with the installable ZIP and SHA-256 checksum. No npm package is published.
 
@@ -77,3 +77,9 @@ GScan's archive-extraction dependency currently has upstream npm audit advisorie
 ## License
 
 MIT. Fonts include their respective upstream license files. Lucide icons are ISC licensed, and PhotoSwipe is MIT licensed. Third-party license notices accompany the packaged assets.
+
+The homepage discovery panel uses public tags with published posts, counts, and optional Ghost tag descriptions. In Design settings, choose Topics, Featured posts, or Hidden and edit the corresponding heading and description. Primary and secondary footer navigation remain separate; edit repeated links in Ghost navigation settings.
+
+The theme includes subtle button feedback and same-origin page fades in browsers supporting cross-document View Transitions. Reduced-motion preferences disable these effects; other browsers use ordinary navigation.
+
+Upload `assets/branding/publication-icon-512.png` as your Ghost publication icon in Settings → Design & branding. The SVG, 16/32px PNGs, multi-size ICO, and Apple touch icon are included in the repository and theme ZIP. A configured Ghost publication icon takes precedence over the theme favicon fallback. Run `npm run branding` to regenerate these assets from the vector source.

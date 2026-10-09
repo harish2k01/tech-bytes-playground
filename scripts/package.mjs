@@ -16,6 +16,7 @@ archive.glob('*.hbs');
 archive.glob('partials/**/*.hbs');
 archive.glob('assets/built/*');
 archive.glob('assets/fonts/*');
+archive.glob('assets/branding/*');
 for (const file of ['package.json', 'README.md', 'LICENSE']) archive.file(file, { name: file });
 await archive.finalize();
 await done;
