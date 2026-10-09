@@ -90,6 +90,14 @@
         "type": "text",
         "default": "Selected guides, useful discoveries, and ideas to come back to.",
         "group": "homepage"
+      },
+      "navigation_location": {
+        "type": "select",
+        "options": [
+          "Footer",
+          "Header"
+        ],
+        "default": "Footer"
       }
     }
   },

@@ -126,7 +126,7 @@ html[data-scheme='dark'] {
   max-width: 1440px;
   margin: auto;
   min-height: 100vh;
-  --ghost-accent-color: var(--bp-purple);
+  --bp-purple: var(--ghost-accent-color, light-dark(#6438d7, #b8a0ff));
 }
 #byte-playground .bp-header {
   padding: 25px 4%;
@@ -136,7 +136,7 @@ html[data-scheme='dark'] {
 }
 #byte-playground .brand-title {
   font:
-    700 19px/1.15 'Space Grotesk',
+    700 19px/1.15 var(--gh-font-heading, 'Space Grotesk'),
     sans-serif;
   max-width: 190px;
 }
@@ -1367,5 +1367,29 @@ h6 {
   #byte-playground *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Native navigation remains available without requiring a header menu. */
+#byte-playground .bp-primary-navigation .nav {
+  flex-wrap: wrap;
+}
+#byte-playground .bp-footer .bp-primary-navigation {
+  margin-bottom: 14px;
+}
+#byte-playground .bp-header .bp-primary-navigation {
+  display: block;
+}
+@media (max-width: 900px) {
+  #byte-playground .bp-header:has(.bp-primary-navigation) {
+    flex-wrap: wrap;
+  }
+  #byte-playground .bp-header .bp-primary-navigation {
+    order: 3;
+    flex-basis: 100%;
+  }
+  #byte-playground .bp-primary-navigation .nav a {
+    display: inline-block;
+    padding: 8px 0;
   }
 }

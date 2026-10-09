@@ -18,6 +18,30 @@ test('home uses published posts and native featured selections', async () => {
   assert.match(html, /class="bp-card-art"[\s\S]*?<img/);
   assert.match(html, /data-ghost-search/);
 });
+
+test('Ghost configuration controls navigation placement, accent, and membership actions', async () => {
+  const home = await renderFixture('index', { context: 'home' });
+  const header = home.match(/<header class="bp-header"[\s\S]*?<\/header>/)[0];
+  assert.doesNotMatch(header, /aria-label="Main navigation"/);
+  assert.match(home, /<footer[\s\S]*?aria-label="Main navigation"[\s\S]*?Explore/);
+  const configured = await renderFixture('index', {
+    context: 'home',
+    custom: { navigation_location: 'Header', color_scheme: 'Light' },
+    site: {
+      title: 'Configured publication',
+      url: 'https://example.com',
+      locale: 'en',
+      accent_color: '#123456',
+      members_enabled: false,
+      navigation: [{ label: 'Configured link', url: '/configured/' }],
+      secondary_navigation: [],
+    },
+  });
+  assert.match(configured, /<header class="bp-header"[\s\S]*?Configured link/);
+  assert.match(configured, /--ghost-accent-color:\s*#123456/);
+  assert.doesNotMatch(configured, /<a[^>]*data-portal|MORE CURIOSITY IN YOUR INBOX/);
+  assert.doesNotMatch(configured.match(/<footer[\s\S]*?<\/footer>/)[0], /Configured link/);
+});
 test('post retains Ghost content, comments and member access boundary', async () => {
   const allowed = await renderFixture('post', { context: 'post', post: posts[0] });
   assert.match(allowed, /sofka --readonly/);
@@ -59,7 +83,13 @@ test('archives and subsequent pages do not repeat the homepage hero', async () =
     posts: posts.filter((p) => p.primary_tag === tags[0]),
   });
   assert.match(tag, /<h1>\s*Kubernetes/);
-  assert.doesNotMatch(tag, /Clusters, orchestration|id=['"]topics['"]|site-navigation/);
+  assert.match(tag, /Clusters, orchestration/);
+  assert.doesNotMatch(tag, /id=['"]topics['"]|site-navigation/);
+  const noDescription = await renderFixture('tag', {
+    context: 'tag',
+    tag: { ...tags[0], description: '' },
+  });
+  assert.doesNotMatch(noDescription, /Clusters, orchestration/);
   const page = await renderFixture('index', {
     context: 'paged',
     pagination: { page: 2, pages: 2, prev: 1 },

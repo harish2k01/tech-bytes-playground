@@ -47,7 +47,11 @@ h.registerHelper('ghost_foot', () =>
   ),
 );
 h.registerHelper('navigation', function (options) {
-  const nav = options.hash.type === 'secondary' ? site.secondary_navigation : site.navigation;
+  const configuredSite = options.data.site ?? site;
+  const nav =
+    options.hash.type === 'secondary'
+      ? configuredSite.secondary_navigation
+      : configuredSite.navigation;
   return safe(
     `<ul class="nav">${nav.map((x) => `<li><a href="${h.escapeExpression(x.url)}">${h.escapeExpression(x.label)}</a></li>`).join('')}</ul>`,
   );
