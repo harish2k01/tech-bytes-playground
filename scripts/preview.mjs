@@ -18,10 +18,10 @@ const site = {
   navigation: [
     { label: 'Explore', url: '/' },
     { label: 'Topics', url: '/#topics' },
-    { label: 'About Harish', url: 'https://harish2k01.xyz' },
+    { label: 'About Me', url: 'https://harish2k01.xyz' },
   ],
   secondary_navigation: [
-    { label: 'About Harish', url: 'https://harish2k01.xyz' },
+    { label: 'About Me', url: 'https://harish2k01.xyz' },
     { label: 'GitHub', url: 'https://github.com/harish2k01' },
   ],
 };

@@ -622,7 +622,7 @@
   opacity: 0.75;
   margin: 5px 0 0;
 }
-#byte-playground .bp-footer > div:last-child {
+#byte-playground .bp-footer > .bp-footer-links {
   display: flex;
   gap: 16px;
   align-items: center;

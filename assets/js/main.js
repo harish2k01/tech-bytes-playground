@@ -37,6 +37,16 @@ const icons = {
   Check,
 };
 createIcons({ icons });
+// Keep native Ghost navigation, showing shared destinations once in the footer.
+const footerDestinations = new Set();
+document.querySelectorAll('.bp-footer-links a').forEach((link) => {
+  const destination = link.href;
+  if (footerDestinations.has(destination)) (link.closest('li') ?? link).remove();
+  else footerDestinations.add(destination);
+});
+document.querySelectorAll('.bp-footer-links nav').forEach((nav) => {
+  if (!nav.querySelector('a')) nav.hidden = true;
+});
 const html = document.documentElement;
 const shell = document.querySelector('.bp-shell');
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;

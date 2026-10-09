@@ -3,6 +3,7 @@ import { readFile, writeFile, mkdtemp } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { releaseNotesParameters, releaseNotesBody } from './release-notes.mjs';
 import {
   compareVersions,
   parseVersion,
@@ -22,7 +23,7 @@ const run = (command, args, cwd = process.cwd()) =>
 const api = (path) => JSON.parse(run('gh', ['api', path]));
 const pages = (path) => JSON.parse(run('gh', ['api', '--paginate', '--slurp', path])).flat();
 const branch = api(`repos/${repository}`).default_branch;
-const botLogin = `${process.env.RELEASE_APP_SLUG || 'github-actions'}[bot]`;
+const botLogin = 'github-actions[bot]';
 const botId = JSON.parse(run('gh', ['api', `users/${botLogin}`])).id;
 const history = run('git', ['rev-list', '--first-parent', '--reverse', 'HEAD']).split('\n');
 const prs = pendingPullRequests(
@@ -83,10 +84,6 @@ for (const pr of prs) {
   const checksumPath = join(build, 'dist', 'SHA256SUMS.txt');
   await writeFile(checksumPath, `${checksum}  ${zipName}\n`);
   const notesPath = join(workspace, 'release-notes.md');
-  await writeFile(
-    notesPath,
-    `## ${pr.title}\n\n${pr.html_url}\n\nDownload **${zipName}** and upload it in Ghost Admin. GitHub's source archives are not the installable theme. Verify the download with SHA256SUMS.txt.\n\nRelease type: ${type}. Source revision: ${sha}.\n\n${marker}\n`,
-  );
   if (!existingTag) {
     run('git', [
       '-c',
@@ -104,6 +101,17 @@ for (const pr of prs) {
     tags.push(tag);
     reservations.set(tag, `${marker}\nrelease-type: ${type}`);
   }
+  const noteFields = releaseNotesParameters(tag, sha, tags);
+  const generated = JSON.parse(
+    run('gh', [
+      'api',
+      '--method',
+      'POST',
+      `repos/${repository}/releases/generate-notes`,
+      ...Object.entries(noteFields).flatMap(([name, value]) => ['-f', `${name}=${value}`]),
+    ]),
+  );
+  await writeFile(notesPath, releaseNotesBody(generated, { zipName, type, sha, marker }));
   if (!release) {
     // A release belonging to someone else is not adopted or modified.
     run('gh', [
@@ -115,7 +123,7 @@ for (const pr of prs) {
       '--verify-tag',
       '--draft',
       '--title',
-      `${pkg.name} ${tag}`,
+      tag,
       '--notes-file',
       notesPath,
     ]);
@@ -127,6 +135,8 @@ for (const pr of prs) {
     tag,
     '--repo',
     repository,
+    '--title',
+    tag,
     '--draft=false',
     '--latest',
     '--notes-file',

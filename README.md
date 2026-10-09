@@ -42,9 +42,9 @@ The existing `custom-full-feature-image`, `custom-narrow-feature-image`, and `cu
 
 ## Automatic releases
 
-Release publication uses a repository-installed GitHub App so releases and tags have a separate bot identity. Configure the Actions repository secrets `RELEASE_APP_ID` and `RELEASE_APP_PRIVATE_KEY`. Grant the App **Contents: read/write**, **Workflows: read/write**, and **Pull requests: read**; install it only on the repositories it should manage. The Workflows permission is needed when reserving tags for revisions that add or change workflow files. GitHub's built-in token cannot grant that permission. See [GitHub App authentication](https://docs.github.com/en/enterprise-cloud%40latest/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow).
+Release publication uses GitHub Actions’ built-in `GITHUB_TOKEN` with **Contents: write** and **Pull requests: read**. Releases and annotated tags use the `github-actions[bot]` identity; no custom App ID, private key, or personal token is required. npm is used to build and validate the theme ZIP, not to publish an npm package. GitHub may restrict the built-in token when tagging historical revisions that differ from the default branch’s workflow files; the workflow stops on permission errors and preserves reserved versions for recovery rather than changing the target commit. See [GitHub token permissions](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions).
 
-Every PR targeting the repository's default branch requires exactly one `major`, `minor`, or `patch` label. Other labels are allowed. `path` is a typo and fails the check. A merged PR triggers validation, packaging, and publication of a GitHub Release with the installable ZIP and SHA-256 checksum. No npm package is published.
+Every PR targeting the repository's default branch requires exactly one `major`, `minor`, or `patch` label. Other labels are allowed. `path` is a typo and fails the check. A merged PR triggers validation, packaging, and publication of a GitHub Release with the installable ZIP and SHA-256 checksum. Tags and release titles use only the semantic version, such as `v0.4.1`. Release notes use GitHub’s automatic generation API, matching the Generate release notes button, for changes between the preceding semantic tag and the exact release tag. GitHub supplies the changelog, contributors, and comparison link; the workflow appends installation and checksum instructions. A generation failure stops publication and can be retried with the reserved version. No npm package is published. GitHub Packages is a package registry rather than generic ZIP hosting; Releases provide the directly downloadable Ghost upload.
 
 | Label   | Example from v1.2.3 |
 | ------- | ------------------- |
@@ -78,7 +78,7 @@ GScan's archive-extraction dependency currently has upstream npm audit advisorie
 
 MIT. Fonts include their respective upstream license files. Lucide icons are ISC licensed, and PhotoSwipe is MIT licensed. Third-party license notices accompany the packaged assets.
 
-The homepage discovery panel uses public tags with published posts, counts, and optional Ghost tag descriptions. In Design settings, choose Topics, Featured posts, or Hidden and edit the corresponding heading and description. Primary and secondary footer navigation remain separate; edit repeated links in Ghost navigation settings.
+The homepage discovery panel uses public tags with published posts, counts, and optional Ghost tag descriptions. In Design settings, choose Topics, Featured posts, or Hidden and edit the corresponding heading and description. Primary and secondary footer navigation share one wrapping row. Shared destinations appear once when JavaScript is enabled. Labels and destinations come from Ghost navigation settings; rename the About link to About Me there.
 
 The theme includes subtle button feedback and same-origin page fades in browsers supporting cross-document View Transitions. Reduced-motion preferences disable these effects; other browsers use ordinary navigation.
 
