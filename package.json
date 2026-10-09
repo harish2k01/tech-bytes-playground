@@ -98,6 +98,26 @@
           "Header"
         ],
         "default": "Footer"
+      },
+      "discovery_layout": {
+        "type": "select",
+        "options": [
+          "Topics",
+          "Featured posts",
+          "Hidden"
+        ],
+        "default": "Topics",
+        "group": "homepage"
+      },
+      "topics_title": {
+        "type": "text",
+        "default": "Follow your curiosity.",
+        "group": "homepage"
+      },
+      "topics_description": {
+        "type": "text",
+        "default": "Pick a subject. Find the experiments, guides, and discoveries behind it.",
+        "group": "homepage"
       }
     }
   },
@@ -107,7 +127,8 @@
     "check": "node --check assets/js/main.js && node scripts/check.mjs",
     "test": "npm run build && npm run check && node --test tests/*.test.mjs && node scripts/validate.mjs",
     "zip": "npm run build && node scripts/package.mjs",
-    "preview": "node scripts/preview.mjs"
+    "preview": "node scripts/preview.mjs",
+    "branding": "node scripts/branding.mjs"
   },
   "overrides": {
     "handlebars": "^4.7.10"
@@ -121,6 +142,7 @@
     "handlebars": "^4.7.10",
     "lucide": "^0.468.0",
     "photoswipe": "^5.4.4",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "sharp": "^0.35.5"
   }
 }

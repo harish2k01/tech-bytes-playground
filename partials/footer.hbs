@@ -6,12 +6,10 @@
     <p>{{@custom.footer_note}}</p>
     {{/if}}<small>© {{date format='YYYY'}} {{@site.title}}</small>
   </div>
-  <div>
+  <div class="bp-footer-links">
     {{#match @custom.navigation_location "Header"}}{{else}}{{#if @site.navigation}}
     <nav class="bp-primary-navigation" aria-label="Main navigation">{{navigation}}</nav>
-    {{/if}}{{/match}}{{#if @site.secondary_navigation}}{{navigation
-        type='secondary'
-      }}{{/if}}<a
+    {{/if}}{{/match}}{{#if @site.secondary_navigation}}<nav aria-label="Secondary navigation">{{navigation type="secondary"}}</nav>{{/if}}<a
       href="{{@site.url}}/rss/"
       >RSS ↗</a
     >

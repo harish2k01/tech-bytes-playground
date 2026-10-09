@@ -29,6 +29,14 @@ for (const file of await readdir('partials'))
   if (file.endsWith('.hbs'))
     h.registerPartial(file.slice(0, -4), await readFile(`partials/${file}`, 'utf8'));
 const safe = (value) => new h.SafeString(value);
+h.registerHelper('plural', (count, options) =>
+  (count === 0
+    ? options.hash.empty
+    : count === 1
+      ? options.hash.singular
+      : options.hash.plural
+  ).replace('%', count),
+);
 h.registerHelper('asset', (p) => `/assets/${p}`);
 h.registerHelper('meta_title', function (options) {
   return options.data.root.post?.title ?? site.title;
@@ -196,6 +204,8 @@ const types = {
   '.js': 'text/javascript',
   '.woff2': 'font/woff2',
   '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.ico': 'image/x-icon',
 };
 if (
   process.argv[1] ===

@@ -77,3 +77,9 @@ GScan's archive-extraction dependency currently has upstream npm audit advisorie
 ## License
 
 MIT. Fonts include their respective upstream license files. Lucide icons are ISC licensed, and PhotoSwipe is MIT licensed. Third-party license notices accompany the packaged assets.
+
+The homepage discovery panel uses public tags with published posts, counts, and optional Ghost tag descriptions. In Design settings, choose Topics, Featured posts, or Hidden and edit the corresponding heading and description. Primary and secondary footer navigation remain separate; edit repeated links in Ghost navigation settings.
+
+The theme includes subtle button feedback and same-origin page fades in browsers supporting cross-document View Transitions. Reduced-motion preferences disable these effects; other browsers use ordinary navigation.
+
+Upload `assets/branding/publication-icon-512.png` as your Ghost publication icon in Settings → Design & branding. The SVG, 16/32px PNGs, multi-size ICO, and Apple touch icon are included in the repository and theme ZIP. A configured Ghost publication icon takes precedence over the theme favicon fallback. Run `npm run branding` to regenerate these assets from the vector source.
