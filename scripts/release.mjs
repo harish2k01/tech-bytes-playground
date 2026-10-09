@@ -23,7 +23,7 @@ const run = (command, args, cwd = process.cwd()) =>
 const api = (path) => JSON.parse(run('gh', ['api', path]));
 const pages = (path) => JSON.parse(run('gh', ['api', '--paginate', '--slurp', path])).flat();
 const branch = api(`repos/${repository}`).default_branch;
-const botLogin = `${process.env.RELEASE_APP_SLUG || 'github-actions'}[bot]`;
+const botLogin = 'github-actions[bot]';
 const botId = JSON.parse(run('gh', ['api', `users/${botLogin}`])).id;
 const history = run('git', ['rev-list', '--first-parent', '--reverse', 'HEAD']).split('\n');
 const prs = pendingPullRequests(
