@@ -17,6 +17,7 @@ import {
   Check,
 } from 'lucide';
 import { paletteIndex, uniqueHeadingId } from './utilities.js';
+import { watchPortalBranding } from './portal-branding.js';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipe from 'photoswipe';
 const icons = {
@@ -37,6 +38,7 @@ const icons = {
   Check,
 };
 createIcons({ icons });
+watchPortalBranding();
 // Keep native Ghost navigation, showing shared destinations once in the footer.
 const footerDestinations = new Set();
 document.querySelectorAll('.bp-footer-links a').forEach((link) => {
@@ -59,6 +61,15 @@ function isDark() {
     (defaultScheme === 'System' && matchMedia('(prefers-color-scheme:dark)').matches)
   );
 }
+// Ghost observes this supported script option and updates its native comments UI.
+function syncCommentsAppearance() {
+  document.querySelectorAll('script[data-ghost-comments]').forEach((script) => {
+    script.dataset.colorScheme = isDark() ? 'dark' : 'light';
+  });
+}
+syncCommentsAppearance();
+document.addEventListener('tb:appearance', syncCommentsAppearance);
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change', syncCommentsAppearance);
 document.querySelector('[data-appearance]')?.addEventListener('click', () => {
   const scheme = isDark() ? 'light' : 'dark';
   html.dataset.scheme = scheme;
@@ -124,15 +135,16 @@ if (feed && nextLink) {
   });
 }
 const surprise = document.querySelector('[data-surprise]');
-const pool = [...document.querySelectorAll('.surprise-pool a')]
+const pool = [...new Set([...document.querySelectorAll('.surprise-pool a')]
   .map((a) => a.href)
   .filter((url) => {
     try {
-      return new URL(url).origin === location.origin;
+      const destination = new URL(url);
+      return destination.origin === location.origin && destination.pathname !== location.pathname;
     } catch {
       return false;
     }
-  });
+  }))];
 if (surprise && pool.length) {
   surprise.hidden = false;
   surprise.addEventListener('click', () => {
