@@ -7,6 +7,9 @@
     />{{else}}<span class="bp-mark" aria-hidden="true">h<span>:</span></span
     ><span class="brand-title">{{@site.title}}</span>{{/if}}
   </a>
+  {{#match @custom.navigation_location "Header"}}{{#if @site.navigation}}
+  <nav class="bp-primary-navigation" aria-label="Main navigation">{{navigation}}</nav>
+  {{/if}}{{/match}}
   <div class="bp-actions">
     <button data-ghost-search aria-label="Search articles">{{> "icon" name="search"}}</button>
     <button data-appearance aria-label="Switch appearance">{{> "icon" name="sun-moon"}}</button>

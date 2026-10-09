@@ -4,7 +4,9 @@
   <header class="bp-topics-intro">
     <span class="bp-sticker">FOLLOW YOUR CURIOSITY</span>
     <h1>{{name}}<span aria-hidden="true">↘</span></h1>
-    {{#if feature_image}}<img
+    {{#if description}}
+    <p>{{description}}</p>
+    {{/if}} {{#if feature_image}}<img
       class="taxonomy-image"
       src="{{img_url feature_image size="s"}}"
       alt=""

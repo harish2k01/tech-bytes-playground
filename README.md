@@ -34,9 +34,9 @@ Upload `dist/tech-bytes-playground-0.1.0.zip` through Ghost Admin's theme settin
 
 ## Configuration
 
-Ghost Admin exposes hero text, default appearance, featured-section text, newsletter heading, and footer copy. Logo, secondary navigation, public tags, membership, and comments use the publication's existing Ghost settings. The header contains the brand, search, appearance, and member actions. Primary navigation and the homepage topic strip are omitted.
+Ghost Admin accent color and heading/body fonts are honored alongside the colorful theme artwork. Ghost Admin exposes navigation location, hero text, default appearance, featured-section text, newsletter heading, and footer copy. Logo, secondary navigation, public tags, membership, and comments use the publication's existing Ghost settings. The header contains the brand, search, appearance, and member actions. Primary navigation uses Ghost Admin links and appears in the footer by default; the Navigation location setting moves it to the header if desired. The homepage topic strip stays omitted.
 
-The featured section lists up to four published posts marked **Featured** in Ghost, newest first, and disappears when no posts are featured. It does not impose a reading sequence or require an internal tag. The hero artwork is decorative and describes building, learning, and sharing rather than linking to categories that may change. Tag archives display the tag name and optional cover image without a subtitle. Surprise Me chooses from the latest 100 published posts.
+The featured section lists up to four published posts marked **Featured** in Ghost, newest first, and disappears when no posts are featured. It does not impose a reading sequence or require an internal tag. The hero artwork is decorative and describes building, learning, and sharing rather than linking to categories that may change. Tag archives display the tag name, optional cover image, and description configured in Ghost. Leave the description blank in Ghost Admin to omit it. Surprise Me chooses from the latest 100 published posts.
 
 The existing `custom-full-feature-image`, `custom-narrow-feature-image`, and `custom-no-feature-image` template names remain available for articles already using them.
 
