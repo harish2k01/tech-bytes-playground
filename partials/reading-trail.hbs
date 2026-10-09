@@ -1,0 +1,18 @@
+{{#get 'posts' filter='tag:hash-trail' order='published_at asc' limit='8'}}{{#if posts}}
+<section class="bp-trail" aria-labelledby="trail-title">
+  <div>
+    <span class="bp-kicker">FOLLOW A READING TRAIL</span>
+    <h2 id="trail-title">{{@custom.reading_trail_title}}</h2>
+    {{#if @custom.reading_trail_description}}
+    <p>{{@custom.reading_trail_description}}</p>
+    {{/if}}
+  </div>
+  <div class="bp-trail-steps">
+    {{#foreach posts}}<a href="{{url}}"
+      ><span>{{@number}}</span>
+      <div>{{#primary_tag}}<small>{{name}}</small>{{/primary_tag}}<b>{{title}}</b></div>
+      <span aria-hidden="true">↗</span></a
+    >{{/foreach}}
+  </div>
+</section>
+{{/if}}{{/get}}

@@ -1,0 +1,46 @@
+{{!< default}}
+<main id="main">
+  {{^is "paged"}}
+  <section class="bp-hero">
+    <div class="bp-hero-copy">
+      {{#if @custom.hero_eyebrow}}<span class="bp-sticker">{{@custom.hero_eyebrow}}</span>{{/if}}
+      <h1>
+        {{@custom.hero_title}}<br /><span class="bp-word"
+          >{{@custom.hero_highlight}}<span class="bp-underline" aria-hidden="true"></span></span
+        ><span class="bp-dot" aria-hidden="true">.</span>
+      </h1>
+      {{#if @custom.hero_description}}
+      <p>{{@custom.hero_description}}</p>
+      {{/if}}
+      <div class="bp-hero-buttons">
+        {{#get "posts" limit="1"}}{{#foreach posts}}<a class="bp-primary" href="{{url}}"
+          >Explore the latest byte <span aria-hidden="true">↗</span></a
+        >{{/foreach}}{{/get}}<button data-surprise hidden>
+          Surprise me {{> "icon" name="shuffle"}}
+        </button>
+      </div>
+      <span class="bp-caption">REAL EXPERIMENTS / PRACTICAL GUIDES / HAPPY HOMELABBING</span>
+    </div>
+    {{> "homelab"}}
+  </section>
+  {{/is}} {{> "topics"}}
+  <section class="bp-feed" aria-labelledby="feed-title">
+    <div class="bp-section-heading">
+      <div>
+        <span class="bp-kicker">FRESH FROM THE LAB</span>
+        <h2 id="feed-title">Good things to geek out on<span aria-hidden="true">↘</span></h2>
+      </div>
+      <span class="feed-label">THE LATEST BYTES</span>
+    </div>
+    <div class="bp-cards">
+      {{#foreach posts}}{{> "card"}}{{else}}
+      <p>New experiments are on their way. Check back for the next byte.</p>
+      {{/foreach}}
+    </div>
+    {{pagination}}
+  </section>
+  {{^is "paged"}}{{> "reading-trail"}}{{> "newsletter"}}{{/is}}
+</main>
+{{#get "posts" limit="100" fields="url"}}
+<div class="surprise-pool" hidden>{{#foreach posts}}<a href="{{url}}"></a>{{/foreach}}</div>
+{{/get}}

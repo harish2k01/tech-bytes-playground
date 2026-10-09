@@ -1,0 +1,40 @@
+{{!< default}}
+<main id="main">
+  {{#author}}
+  <header class="bp-topics-intro">
+    {{#if profile_image}}<img
+      class="author-image"
+      src="{{img_url profile_image size="s"}}"
+      alt="{{name}}"
+      width="100"
+      height="100"
+    />{{/if}}<span class="bp-sticker">THE BUILDER BEHIND THE BYTES</span>
+    <h1>{{name}}<span aria-hidden="true">✳</span></h1>
+    {{#if bio}}
+    <p>{{bio}}</p>
+    {{/if}}{{#if location}}
+    <p>{{location}}</p>
+    {{/if}}{{#if website}}<a
+      href="{{website}}"
+      rel="noopener noreferrer"
+      target="_blank"
+      >Website ↗</a
+    >{{/if}}{{#if twitter}}<a
+      href="{{social_url type="twitter"}}"
+      rel="noopener noreferrer"
+      target="_blank"
+      >Twitter ↗</a
+    >{{/if}}{{#if facebook}}<a
+      href="{{social_url type="facebook"}}"
+      rel="noopener noreferrer"
+      target="_blank"
+      >Facebook ↗</a
+    >{{/if}}
+  </header>
+  {{/author}}
+  <section class="bp-feed">
+    <h2>Bytes by this author</h2>
+    <div class="bp-cards">{{#foreach posts}}{{> "card"}}{{/foreach}}</div>
+    {{pagination}}
+  </section>
+</main>

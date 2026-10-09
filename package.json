@@ -1,0 +1,127 @@
+{
+  "name": "tech-bytes-playground",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A colorful, interactive Ghost theme for hands-on technology writing.",
+  "engines": {
+    "ghost": ">=5.54.1",
+    "node": ">=22.17.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Harish Thangadurai",
+    "url": "https://harish2k01.xyz",
+    "email": "harish2k01@icloud.com"
+  },
+  "keywords": [
+    "ghost-theme",
+    "ghost",
+    "blog",
+    "homelab"
+  ],
+  "config": {
+    "posts_per_page": 9,
+    "card_assets": true,
+    "image_sizes": {
+      "xs": {
+        "width": 160
+      },
+      "s": {
+        "width": 400
+      },
+      "m": {
+        "width": 750
+      },
+      "l": {
+        "width": 1200
+      },
+      "xl": {
+        "width": 1800
+      },
+      "xxl": {
+        "width": 2400
+      }
+    },
+    "custom": {
+      "color_scheme": {
+        "type": "select",
+        "options": [
+          "System",
+          "Light",
+          "Dark"
+        ],
+        "default": "Light"
+      },
+      "hero_eyebrow": {
+        "type": "text",
+        "default": "A little lab. A lot of curiosity.",
+        "group": "homepage"
+      },
+      "hero_title": {
+        "type": "text",
+        "default": "Where tech gets",
+        "group": "homepage"
+      },
+      "hero_highlight": {
+        "type": "text",
+        "default": "hands-on",
+        "group": "homepage"
+      },
+      "hero_description": {
+        "type": "text",
+        "default": "Servers in the corner. Ideas everywhere. Come build, break, and figure things out with me.",
+        "group": "homepage"
+      },
+      "footer_note": {
+        "type": "text",
+        "default": "Happy Homelabbing!!!"
+      },
+      "article_artwork": {
+        "type": "select",
+        "options": [
+          "Illustrated",
+          "Feature images"
+        ],
+        "default": "Illustrated",
+        "group": "homepage"
+      },
+      "reading_trail_title": {
+        "type": "text",
+        "default": "A small cloud, one guide at a time.",
+        "group": "homepage"
+      },
+      "reading_trail_description": {
+        "type": "text",
+        "default": "Start with the cluster. Add the pieces. See how everything connects.",
+        "group": "homepage"
+      },
+      "newsletter_title": {
+        "type": "text",
+        "default": "The next byte is on its way.",
+        "group": "homepage"
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "check": "node --check assets/js/main.js && node scripts/check.mjs",
+    "test": "npm run build && npm run check && node --test tests/*.test.mjs && node scripts/validate.mjs",
+    "zip": "npm run build && node scripts/package.mjs",
+    "preview": "node scripts/preview.mjs"
+  },
+  "overrides": {
+    "handlebars": "^4.7.10"
+  },
+  "devDependencies": {
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource-variable/space-grotesk": "^5.2.10",
+    "archiver": "^7.0.1",
+    "esbuild": "^0.25.0",
+    "gscan": "6.6.1",
+    "handlebars": "^4.7.10",
+    "lucide": "^0.468.0",
+    "photoswipe": "^5.4.4",
+    "prettier": "^3.8.1"
+  }
+}
