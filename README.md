@@ -42,9 +42,9 @@ The existing `custom-full-feature-image`, `custom-narrow-feature-image`, and `cu
 
 ## Automatic releases
 
-Release publication uses a repository-installed GitHub App so releases and tags have a separate bot identity. Configure the Actions repository secrets `RELEASE_APP_ID` and `RELEASE_APP_PRIVATE_KEY`. Grant the App **Contents: read/write**, **Workflows: read/write**, and **Pull requests: read**; install it only on the repositories it should manage. The Workflows permission is needed when reserving tags for revisions that add or change workflow files. GitHub's built-in token cannot grant that permission. See [GitHub App authentication](https://docs.github.com/en/enterprise-cloud%40latest/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow).
+Release publication uses a repository-installed GitHub App so releases and tags have a separate bot identity. Ordinary release creation can use the built-in `GITHUB_TOKEN` with Contents write permission; this workflow uses App authentication for its bot identity and workflow-changing tags. Configure the Actions repository secrets `RELEASE_APP_ID` and `RELEASE_APP_PRIVATE_KEY`. Grant the App **Contents: read/write**, **Workflows: read/write**, and **Pull requests: read**; install it only on the repositories it should manage. The Workflows permission is needed when reserving tags for revisions that add or change workflow files. GitHub's built-in token cannot grant that permission. See [GitHub App authentication](https://docs.github.com/en/enterprise-cloud%40latest/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow).
 
-Every PR targeting the repository's default branch requires exactly one `major`, `minor`, or `patch` label. Other labels are allowed. `path` is a typo and fails the check. A merged PR triggers validation, packaging, and publication of a GitHub Release with the installable ZIP and SHA-256 checksum. No npm package is published.
+Every PR targeting the repository's default branch requires exactly one `major`, `minor`, or `patch` label. Other labels are allowed. `path` is a typo and fails the check. A merged PR triggers validation, packaging, and publication of a GitHub Release with the installable ZIP and SHA-256 checksum. Tags and release titles use only the semantic version, such as `v0.4.1`. No npm package is published. GitHub Packages is a package registry rather than generic ZIP hosting; Releases provide the directly downloadable Ghost upload.
 
 | Label   | Example from v1.2.3 |
 | ------- | ------------------- |
@@ -78,7 +78,7 @@ GScan's archive-extraction dependency currently has upstream npm audit advisorie
 
 MIT. Fonts include their respective upstream license files. Lucide icons are ISC licensed, and PhotoSwipe is MIT licensed. Third-party license notices accompany the packaged assets.
 
-The homepage discovery panel uses public tags with published posts, counts, and optional Ghost tag descriptions. In Design settings, choose Topics, Featured posts, or Hidden and edit the corresponding heading and description. Primary and secondary footer navigation remain separate; edit repeated links in Ghost navigation settings.
+The homepage discovery panel uses public tags with published posts, counts, and optional Ghost tag descriptions. In Design settings, choose Topics, Featured posts, or Hidden and edit the corresponding heading and description. Primary and secondary footer navigation share one wrapping row. Shared destinations appear once when JavaScript is enabled. Labels and destinations come from Ghost navigation settings; rename the About link to About Me there.
 
 The theme includes subtle button feedback and same-origin page fades in browsers supporting cross-document View Transitions. Reduced-motion preferences disable these effects; other browsers use ordinary navigation.
 

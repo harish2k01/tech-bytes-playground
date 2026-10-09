@@ -4,18 +4,17 @@
 >
   <header class="bp-article-intro">
     <a class="bp-back" href="{{@site.url}}">← Back to exploring</a>
-    {{#is "post"}}{{#primary_tag}}<a class="bp-chip" href="{{url}}">{{name}}</a
-    >{{/primary_tag}}{{/is}} {{#match @page.show_title_and_feature_image}}
-    <h1>{{title}}<span aria-hidden="true">✳</span></h1>
+    {{#is "post"}}<div class="bp-article-category">{{#primary_tag}}<a class="bp-chip" href="{{url}}">{{name}}</a>{{/primary_tag}}<span class="bp-article-spark" aria-hidden="true">✳</span></div>{{/is}} {{#match @page.show_title_and_feature_image}}
+    <h1>{{title}}</h1>
     {{#if custom_excerpt}}
     <p>{{custom_excerpt}}</p>
     {{/if}}{{/match}} {{#is "post"}}
-    <div class="bp-meta">
+    <div class="bp-article-details"><div class="bp-meta">
       {{#foreach authors}}<a href="{{url}}">{{name}}</a>{{/foreach}}<span>·</span
       ><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time><span>·</span
       ><span>{{reading_time}}</span
-      ><button data-share hidden>Share this byte ↗</button><button data-focus aria-pressed="false" hidden>Focus mode</button>
-    </div>
+      >
+    </div><div class="bp-article-actions"><button data-share hidden>Share this byte ↗</button><button data-focus aria-pressed="false" hidden>Focus mode</button></div></div>
     {{/is}}
   </header>
   {{#match @page.show_title_and_feature_image}}{{#if feature_image}}{{#unless no_image}}

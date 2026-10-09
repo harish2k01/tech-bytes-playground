@@ -115,7 +115,7 @@ for (const pr of prs) {
       '--verify-tag',
       '--draft',
       '--title',
-      `${pkg.name} ${tag}`,
+      tag,
       '--notes-file',
       notesPath,
     ]);
@@ -127,6 +127,8 @@ for (const pr of prs) {
     tag,
     '--repo',
     repository,
+    '--title',
+    tag,
     '--draft=false',
     '--latest',
     '--notes-file',
