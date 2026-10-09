@@ -59,6 +59,15 @@ function isDark() {
     (defaultScheme === 'System' && matchMedia('(prefers-color-scheme:dark)').matches)
   );
 }
+// Ghost observes this supported script option and updates its native comments UI.
+function syncCommentsAppearance() {
+  document.querySelectorAll('script[data-ghost-comments]').forEach((script) => {
+    script.dataset.colorScheme = isDark() ? 'dark' : 'light';
+  });
+}
+syncCommentsAppearance();
+document.addEventListener('tb:appearance', syncCommentsAppearance);
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change', syncCommentsAppearance);
 document.querySelector('[data-appearance]')?.addEventListener('click', () => {
   const scheme = isDark() ? 'light' : 'dark';
   html.dataset.scheme = scheme;

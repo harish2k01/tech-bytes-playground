@@ -82,7 +82,10 @@ h.registerHelper('foreach', function (items, options) {
     .join('');
 });
 h.registerHelper('get', function (resource, options) {
-  let items = resource === 'tags' ? tags : (options.data.root.fixturePosts ?? posts);
+  if (resource === 'tags' && options.hash.filter?.includes('count.posts:')) {
+    throw new Error('Ghost tags do not support filtering by the included count.posts');
+  }
+  let items = resource === 'tags' ? (options.data.root.fixtureTags ?? tags) : (options.data.root.fixturePosts ?? posts);
   if (options.hash.filter?.includes('featured:true')) items = items.filter((p) => p.featured);
   if (options.hash.filter?.includes('id:-'))
     items = items.filter((p) => p.id !== options.data.root.post?.id);

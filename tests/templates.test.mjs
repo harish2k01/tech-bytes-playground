@@ -15,6 +15,15 @@ test('home uses published posts and dynamic topic discovery', async () => {
   assert.match(html, /class="bp-card-art"[\s\S]*?<img/);
   assert.match(html, /data-ghost-search/);
 });
+test('topic discovery uses the supported tag query and hides tags without published posts', async () => {
+  const populated = { ...tags[0], count: { posts: 2 } };
+  const empty = { ...tags[1], name: 'Empty topic', count: { posts: 0 } };
+  const home = await renderFixture('index', { fixtureTags: [populated, empty] });
+  assert.match(home, /id="topics"/);
+  assert.doesNotMatch(home, /Empty topic/);
+  const noPosts = await renderFixture('index', { fixtureTags: [empty] });
+  assert.doesNotMatch(noPosts, /id="topics"/);
+});
 
 test('Ghost configuration controls navigation placement, accent, and membership actions', async () => {
   const home = await renderFixture('index', { context: 'home' });

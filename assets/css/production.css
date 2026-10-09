@@ -122,7 +122,8 @@ html[data-scheme='dark'] {
 /* Ghost's native dialogs use a normal iframe canvas. Matching it keeps the
    iframe transparent so their own blur/backdrop reveals the underlying page. */
 #ghost-portal-root iframe,
-#sodo-search-root iframe {
+#sodo-search-root iframe,
+#ghost-comments-root iframe {
   color-scheme: normal;
 }
 #byte-playground {
@@ -616,6 +617,7 @@ html[data-scheme='dark'] {
   max-width: 850px;
 }
 #byte-playground .bp-reading > [data-toc-container] {
+  display: block;
   position: sticky;
   top: 30px;
   max-height: 85vh;
@@ -842,6 +844,10 @@ html[data-scheme='dark'] {
   overflow: hidden;
   color: var(--bp-ink) !important;
 }
+#byte-playground .kg-bookmark-card .kg-bookmark-container {
+  background: var(--bp-card);
+  border-color: var(--bp-line);
+}
 .kg-bookmark-content {
   padding: 20px;
   min-width: 0;
@@ -876,6 +882,7 @@ html[data-scheme='dark'] {
 .kg-bookmark-thumbnail {
   width: 30%;
   flex-shrink: 0;
+  background: #fff;
 }
 .kg-bookmark-thumbnail img {
   width: 100%;
