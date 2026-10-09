@@ -119,6 +119,12 @@ html[data-scheme='light'] {
 html[data-scheme='dark'] {
   color-scheme: dark;
 }
+/* Ghost's native dialogs use a normal iframe canvas. Matching it keeps the
+   iframe transparent so their own blur/backdrop reveals the underlying page. */
+#ghost-portal-root iframe,
+#sodo-search-root iframe {
+  color-scheme: normal;
+}
 #byte-playground {
   color-scheme: inherit;
 }
