@@ -1,0 +1,12 @@
+<footer class="bp-footer">
+  <div>
+    <a href="{{@site.url}}"
+      ><b>{{@site.title}}<span aria-hidden="true">✳</span></b></a
+    >{{#if @custom.footer_note}}
+    <p>{{@custom.footer_note}}</p>
+    {{/if}}<small>© {{date format='YYYY'}} {{@site.title}}</small>
+  </div>
+  <div>{{#if @site.secondary_navigation}}{{navigation
+        type='secondary'
+      }}{{/if}}<a href="{{@site.url}}/rss/">RSS ↗</a></div>
+</footer>

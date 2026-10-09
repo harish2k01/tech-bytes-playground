@@ -1,0 +1,36 @@
+<header class="bp-header">
+  <a class="bp-brand" href="{{@site.url}}" aria-label="{{@site.title}} home">
+    {{#if @site.logo}}<img
+      class="site-logo"
+      src="{{@site.logo}}"
+      alt="{{@site.title}}"
+    />{{else}}<span class="bp-mark" aria-hidden="true">h<span>:</span></span
+    ><span class="brand-title">{{@site.title}}</span>{{/if}}
+  </a>
+  <button
+    class="mobile-menu-toggle"
+    aria-expanded="false"
+    aria-controls="site-navigation"
+    aria-label="Open navigation"
+  >
+    {{> "icon" name="menu"}}
+  </button>
+  <nav id="site-navigation" aria-label="Main navigation">
+    {{#if @site.navigation}}{{navigation}}{{else}}<a href="{{@site.url}}">Explore</a
+    ><a href="{{@site.url}}/#topics">Topics</a>{{/if}}
+  </nav>
+  <div class="bp-actions">
+    <button data-ghost-search aria-label="Search articles">{{> "icon" name="search"}}</button>
+    <button data-appearance aria-label="Switch appearance">{{> "icon" name="sun-moon"}}</button>
+    {{#if @site.members_enabled}} {{#if @member}}<a
+      class="bp-subscribe"
+      href="#/portal/account"
+      data-portal="account"
+      >Account ↗</a
+    >{{else}}
+    <a href="#/portal/signin" data-portal="signin">Sign in</a>
+    {{#unless @site.members_invite_only}}<a class="bp-subscribe" href="#/portal/signup" data-portal="signup"
+      >Subscribe ↗</a
+    >{{/unless}} {{/if}} {{/if}}
+  </div>
+</header>

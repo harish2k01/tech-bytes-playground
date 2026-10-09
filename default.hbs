@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}" data-default-scheme="{{@custom.color_scheme}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{meta_title}}</title>
+    <script>
+      try {
+        const s = localStorage.getItem("tb-appearance");
+        if (s === "light" || s === "dark") document.documentElement.dataset.scheme = s;
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="{{asset "built/screen.css"}}" />
+    <link rel="preload" href="{{asset "fonts/space-grotesk-latin.woff2"}}" as="font" type="font/woff2" crossorigin />
+    {{ghost_head}}
+  </head>
+  <body class="{{body_class}}">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div id="byte-playground">
+      <div class="bp-shell">{{> "header"}} {{{body}}} {{> "footer"}}</div>
+    </div>
+    <script src="{{asset "built/main.js"}}" defer></script>
+    {{ghost_foot}}
+  </body>
+</html>

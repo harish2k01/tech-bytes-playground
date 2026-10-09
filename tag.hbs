@@ -1,0 +1,26 @@
+{{!< default}}
+<main id="main">
+  {{#tag}}
+  <header class="bp-topics-intro">
+    <span class="bp-sticker">FOLLOW YOUR CURIOSITY</span>
+    <h1>{{name}}<span aria-hidden="true">↘</span></h1>
+    {{#if description}}
+    <p>{{description}}</p>
+    {{/if}}{{#if feature_image}}<img
+      class="taxonomy-image"
+      src="{{img_url feature_image size="s"}}"
+      alt=""
+      width="400"
+      height="250"
+    />{{/if}}
+  </header>
+  {{/tag}}{{> "topics"}}
+  <section class="bp-feed">
+    <div class="bp-cards">
+      {{#foreach posts}}{{> "card"}}{{else}}
+      <p>The next byte in this topic is on its way.</p>
+      {{/foreach}}
+    </div>
+    {{pagination}}
+  </section>
+</main>

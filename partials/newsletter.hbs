@@ -1,0 +1,11 @@
+{{#if @site.members_enabled}}{{#unless @member}}{{#unless @site.members_invite_only}}
+<section class="bp-newsletter">
+  <span class="bp-mail" aria-hidden="true">{{> "icon" name="mail"}}</span>
+  <div>
+    <span class="bp-kicker">MORE CURIOSITY IN YOUR INBOX</span>
+    <h2>{{@custom.newsletter_title}}</h2>
+    <p>Get new articles when they're published.</p>
+  </div>
+  <a class="bp-primary" href="#/portal/signup" data-portal="signup">Count me in ↗</a>
+</section>
+{{/unless}}{{/unless}}{{/if}}

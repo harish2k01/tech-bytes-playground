@@ -1,0 +1,36 @@
+<article class="bp-card {{post_class}}" data-palette="{{slug}}">
+  <a href="{{url}}" class="card-art-link" tabindex="-1" aria-hidden="true">
+    {{#match @custom.article_artwork "Feature images"}}{{#if feature_image}}
+    <div class="bp-card-art">
+      <img
+        src="{{img_url feature_image size="m"}}"
+        srcset="{{img_url feature_image size="s"}} 400w, {{img_url feature_image size="m"}} 750w, {{img_url feature_image size="l"}} 1200w"
+        sizes="(max-width: 600px) 90vw, 33vw"
+        alt=""
+        loading="lazy"
+        width="750"
+        height="450"
+      />
+    </div>
+    {{else}}{{> "card-art"}}{{/if}}{{else}}{{> "card-art"}}{{/match}}</a
+  >
+  <div class="bp-card-copy">
+    <div class="card-meta-top">
+      {{#primary_tag}}<a href="{{url}}">{{name}}</a>{{else}}<span
+        >FIELD NOTES</span
+      >{{/primary_tag}}<span> / {{reading_time}}</span>{{#unless access}}<span class="access-label"
+        >{{#has visibility="paid"}}Paid{{else}}Members{{/has}}</span
+      >{{/unless}}
+    </div>
+    <h2><a href="{{url}}">{{title}}</a></h2>
+    <p>{{excerpt words="22"}}</p>
+    <div class="bp-card-meta">
+      <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time
+      >{{#if @site.comments_enabled}}{{comment_count}}{{/if}}<a
+        href="{{url}}"
+        aria-label="Read {{title}}"
+        >↗</a
+      >
+    </div>
+  </div>
+</article>

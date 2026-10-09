@@ -1,0 +1,24 @@
+<div class="bp-lab" aria-label="Illustrated homelab">
+  <div class="bp-orbit" aria-hidden="true"></div>
+  <div class="bp-label">WELCOME TO MY LITTLE CLOUD</div>
+  {{#get "tags" filter="visibility:public" include="count.posts" order="count.posts desc" limit="3"}}{{#foreach tags}}<a class="bp-float bp-float-{{@number}}" href="{{url}}"
+    >{{#match @number 1}}{{> "icon" name="network"}}{{else match @number 2}}{{> "icon" name="database"}}{{else}}{{> "icon" name="activity"}}{{/match}}<span
+      >explore<br /><b>{{name}} ↗</b></span
+    ></a
+  >{{/foreach}}{{/get}}
+  <a class="bp-server" href="#topics" aria-label="Explore blog topics"
+    ><span class="bp-server-top">THE HOMELAB</span
+    ><span class="bp-server-unit"
+      ><span class="bp-server-slots" aria-hidden="true">▰ ▰ ▰</span
+      ><span class="bp-lights" aria-hidden="true">● ●</span></span
+    ><span class="bp-server-unit"
+      ><span class="bp-server-slots" aria-hidden="true">▰ ▰ ▰</span
+      ><span class="bp-lights" aria-hidden="true">● ●</span></span
+    ><span class="bp-server-unit"
+      ><span class="bp-server-slots" aria-hidden="true">▰ ▰ ▰</span
+      ><span class="bp-lights" aria-hidden="true">● ●</span></span
+    ><span class="bp-server-bottom">BUILT TO EXPLORE ↗</span></a
+  >
+  <div class="bp-mini-note">built at home.<br /><em>shared with you.</em></div>
+  <span class="bp-spark" aria-hidden="true">✳</span>
+</div>

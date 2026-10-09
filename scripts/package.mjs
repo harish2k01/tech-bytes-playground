@@ -1,0 +1,22 @@
+import archiver from 'archiver';
+import { createWriteStream } from 'node:fs';
+import { mkdir, readFile } from 'node:fs/promises';
+const pkg = JSON.parse(await readFile('package.json', 'utf8'));
+await mkdir('dist', { recursive: true });
+const filename = `dist/${pkg.name}-${pkg.version}.zip`;
+const output = createWriteStream(filename);
+const archive = archiver('zip', { zlib: { level: 9 } });
+const done = new Promise((resolve, reject) => {
+  output.on('close', resolve);
+  output.on('error', reject);
+  archive.on('error', reject);
+});
+archive.pipe(output);
+archive.glob('*.hbs');
+archive.glob('partials/**/*.hbs');
+archive.glob('assets/built/*');
+archive.glob('assets/fonts/*');
+for (const file of ['package.json', 'README.md', 'LICENSE']) archive.file(file, { name: file });
+await archive.finalize();
+await done;
+console.log(`${filename} (${archive.pointer()} bytes)`);

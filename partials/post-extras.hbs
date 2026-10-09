@@ -1,0 +1,13 @@
+{{#is "post"}}{{#if comments}}
+<section class="bp-discussion content-width" id="discussion">
+  <span class="bp-kicker">LET'S COMPARE NOTES</span>
+  <h2>Member discussion</h2>
+  {{comment_count}}{{comments title="" count=false}}
+</section>
+{{/if}} {{#get "posts" filter="id:-{{id}}+tags:[{{tags}}]" limit="3"}}{{#if posts}}
+<section class="bp-feed">
+  <span class="bp-kicker">KEEP FOLLOWING YOUR CURIOSITY</span>
+  <h2>You might also like</h2>
+  <div class="bp-cards">{{#foreach posts}}{{> "card"}}{{/foreach}}</div>
+</section>
+{{/if}}{{/get}}{{/is}}
