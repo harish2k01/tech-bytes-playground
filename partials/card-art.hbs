@@ -1,7 +1,5 @@
 <div class="bp-card-art">
-  {{#has tag="Kubernetes"}}{{> "icon" name="boxes"}}{{else}}{{#has tag="Networking"}}{{> "icon" name="network"}}{{else}}{{#has tag="Storage"}}{{> "icon" name="database"}}{{else}}{{#has tag="Observability"}}{{> "icon" name="activity"}}{{else}}{{#has tag="Self-hosting"}}{{> "icon" name="house"}}{{else}}{{> "icon" name="terminal"}}{{/has}}{{/has}}{{/has}}{{/has}}{{/has}}<span
-    class="bp-art-word"
-    >{{#primary_tag}}{{name}}{{else}}byte{{/primary_tag}}</span
-  ><span class="bp-art-note">BUILD. LEARN. SHARE.</span
+  {{> "icon" name="terminal"}}<span class="bp-art-word">Field notes</span>
+  <span class="bp-art-note">BUILD. LEARN. SHARE.</span
   ><span class="bp-art-shape" aria-hidden="true">✳</span>
 </div>

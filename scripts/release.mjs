@@ -22,6 +22,8 @@ const run = (command, args, cwd = process.cwd()) =>
 const api = (path) => JSON.parse(run('gh', ['api', path]));
 const pages = (path) => JSON.parse(run('gh', ['api', '--paginate', '--slurp', path])).flat();
 const branch = api(`repos/${repository}`).default_branch;
+const botLogin = `${process.env.RELEASE_APP_SLUG || 'github-actions'}[bot]`;
+const botId = JSON.parse(run('gh', ['api', `users/${botLogin}`])).id;
 const history = run('git', ['rev-list', '--first-parent', '--reverse', 'HEAD']).split('\n');
 const prs = pendingPullRequests(
   pages(`repos/${repository}/pulls?state=closed&per_page=100`),
@@ -88,9 +90,9 @@ for (const pr of prs) {
   if (!existingTag) {
     run('git', [
       '-c',
-      'user.name=github-actions[bot]',
+      `user.name=${botLogin}`,
       '-c',
-      'user.email=41898282+github-actions[bot]@users.noreply.github.com',
+      `user.email=${botId}+${botLogin}@users.noreply.github.com`,
       'tag',
       '-a',
       tag,

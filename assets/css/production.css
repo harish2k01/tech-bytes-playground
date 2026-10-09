@@ -216,6 +216,7 @@ html[data-scheme='dark'] {
 }
 #byte-playground .bp-lab {
   height: 440px;
+  pointer-events: none;
 }
 #byte-playground .bp-label {
   font-size: 10px;

@@ -70,8 +70,8 @@ h.registerHelper('foreach', function (items, options) {
     .join('');
 });
 h.registerHelper('get', function (resource, options) {
-  let items = resource === 'tags' ? tags : posts;
-  if (options.hash.filter?.includes('hash-trail')) items = items.filter((p) => p.trail);
+  let items = resource === 'tags' ? tags : (options.data.root.fixturePosts ?? posts);
+  if (options.hash.filter?.includes('featured:true')) items = items.filter((p) => p.featured);
   if (options.hash.filter?.includes('id:-'))
     items = items.filter((p) => p.id !== options.data.root.post?.id);
   if (options.hash.order?.includes('asc')) items = [...items].reverse();

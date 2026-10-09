@@ -71,6 +71,7 @@ const entries = [
     7,
   ],
 ];
+import publicImages from './fixture-images.json' with { type: 'json' };
 export const posts = entries.map(([id, title, date, topic, time]) => ({
   id,
   slug: title
@@ -92,9 +93,9 @@ export const posts = entries.map(([id, title, date, topic, time]) => ({
   access: true,
   visibility: 'public',
   comments: true,
-  feature_image: '/fixtures/homelab.svg',
+  feature_image: publicImages[title] || '/fixtures/homelab.svg',
   feature_image_alt: 'Colorful server illustration',
   feature_image_caption: 'Theme fixture artwork',
-  trail: ['cluster', 'network', 'storage', 'metrics'].includes(id),
+  featured: ['cluster', 'network', 'storage', 'metrics'].includes(id),
 }));
 export const illustration = `<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500"><rect width="1000" height="500" fill="#92cde9"/><circle cx="780" cy="110" r="65" fill="#f4cf51"/><rect x="295" y="85" width="410" height="340" rx="24" fill="#cec1f2" stroke="#302738" stroke-width="5"/><g fill="#403554"><rect x="325" y="130" width="350" height="70" rx="10"/><rect x="325" y="215" width="350" height="70" rx="10"/><rect x="325" y="300" width="350" height="70" rx="10"/></g><g fill="#c7df87"><circle cx="640" cy="165" r="8"/><circle cx="640" cy="250" r="8"/><circle cx="640" cy="335" r="8"/></g><text x="85" y="440" font-family="monospace" font-size="30" fill="#302738">BUILD. LEARN. SHARE.</text></svg>`;

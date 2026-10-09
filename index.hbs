@@ -23,7 +23,7 @@
     </div>
     {{> "homelab"}}
   </section>
-  {{/is}} {{> "topics"}}
+  {{/is}}
   <section class="bp-feed" aria-labelledby="feed-title">
     <div class="bp-section-heading">
       <div>
@@ -39,7 +39,7 @@
     </div>
     {{pagination}}
   </section>
-  {{^is "paged"}}{{> "reading-trail"}}{{> "newsletter"}}{{/is}}
+  {{^is "paged"}}{{> "featured-posts"}}{{> "newsletter"}}{{/is}}
 </main>
 {{#get "posts" limit="100" fields="url"}}
 <div class="surprise-pool" hidden>{{#foreach posts}}<a href="{{url}}"></a>{{/foreach}}</div>
