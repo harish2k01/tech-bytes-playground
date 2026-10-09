@@ -41,6 +41,6 @@
   </section>
   {{^is "paged"}}{{#match @custom.discovery_layout "Featured posts"}}{{> "featured-posts"}}{{else}}{{#match @custom.discovery_layout "Hidden"}}{{else}}{{> "topic-discovery"}}{{/match}}{{/match}}{{> "newsletter"}}{{/is}}
 </main>
-{{#get "posts" limit="100" fields="url"}}
+{{#get "posts" limit="100"}}
 <div class="surprise-pool" hidden>{{#foreach posts}}<a href="{{url}}"></a>{{/foreach}}</div>
 {{/get}}

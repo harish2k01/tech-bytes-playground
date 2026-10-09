@@ -135,15 +135,16 @@ if (feed && nextLink) {
   });
 }
 const surprise = document.querySelector('[data-surprise]');
-const pool = [...document.querySelectorAll('.surprise-pool a')]
+const pool = [...new Set([...document.querySelectorAll('.surprise-pool a')]
   .map((a) => a.href)
   .filter((url) => {
     try {
-      return new URL(url).origin === location.origin;
+      const destination = new URL(url);
+      return destination.origin === location.origin && destination.pathname !== location.pathname;
     } catch {
       return false;
     }
-  });
+  }))];
 if (surprise && pool.length) {
   surprise.hidden = false;
   surprise.addEventListener('click', () => {

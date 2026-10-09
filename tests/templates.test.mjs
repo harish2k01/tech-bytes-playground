@@ -14,6 +14,10 @@ test('home uses published posts and dynamic topic discovery', async () => {
   assert.match(hero, /Build\./);
   assert.match(html, /class="bp-card-art"[\s\S]*?<img/);
   assert.match(html, /data-ghost-search/);
+  const surpriseLinks = [...html.matchAll(/<div class="surprise-pool"[\s\S]*?<\/div>/g)]
+    .flatMap(([pool]) => [...pool.matchAll(/href="([^"]+)"/g)].map(([, url]) => url));
+  assert.ok(surpriseLinks.length > 1);
+  assert.ok(surpriseLinks.every((url) => url !== '/'));
 });
 test('topic discovery uses the supported tag query and hides tags without published posts', async () => {
   const populated = { ...tags[0], count: { posts: 2 } };

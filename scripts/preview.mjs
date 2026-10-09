@@ -82,6 +82,9 @@ h.registerHelper('foreach', function (items, options) {
     .join('');
 });
 h.registerHelper('get', function (resource, options) {
+  if (resource === 'posts' && options.hash.fields === 'url') {
+    throw new Error('Ghost URL helpers need post routing data, not just the computed URL field');
+  }
   if (resource === 'tags' && options.hash.filter?.includes('count.posts:')) {
     throw new Error('Ghost tags do not support filtering by the included count.posts');
   }
