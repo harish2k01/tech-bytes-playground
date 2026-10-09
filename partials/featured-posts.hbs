@@ -1,0 +1,18 @@
+{{#get "posts" filter="featured:true" limit="4" order="published_at desc"}}{{#if posts}}
+<section class="bp-trail" aria-labelledby="featured-title">
+  <div>
+    <span class="bp-kicker">WORTH ANOTHER LOOK</span>
+    <h2 id="featured-title">{{@custom.featured_posts_title}}</h2>
+    {{#if @custom.featured_posts_description}}
+    <p>{{@custom.featured_posts_description}}</p>
+    {{/if}}
+  </div>
+  <div class="bp-trail-steps">
+    {{#foreach posts}}<a href="{{url}}">
+      <span aria-hidden="true">↗</span>
+      <div>{{#primary_tag}}<small>{{name}}</small>{{/primary_tag}}<b>{{title}}</b></div>
+      <span class="featured-reading-time">{{reading_time}}</span> </a
+    >{{/foreach}}
+  </div>
+</section>
+{{/if}}{{/get}}

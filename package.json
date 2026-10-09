@@ -76,28 +76,19 @@
         "type": "text",
         "default": "Happy Homelabbing!!!"
       },
-      "article_artwork": {
-        "type": "select",
-        "options": [
-          "Illustrated",
-          "Feature images"
-        ],
-        "default": "Illustrated",
-        "group": "homepage"
-      },
-      "reading_trail_title": {
-        "type": "text",
-        "default": "A small cloud, one guide at a time.",
-        "group": "homepage"
-      },
-      "reading_trail_description": {
-        "type": "text",
-        "default": "Start with the cluster. Add the pieces. See how everything connects.",
-        "group": "homepage"
-      },
       "newsletter_title": {
         "type": "text",
         "default": "The next byte is on its way.",
+        "group": "homepage"
+      },
+      "featured_posts_title": {
+        "type": "text",
+        "default": "A few bytes worth keeping.",
+        "group": "homepage"
+      },
+      "featured_posts_description": {
+        "type": "text",
+        "default": "Selected guides, useful discoveries, and ideas to come back to.",
         "group": "homepage"
       }
     }

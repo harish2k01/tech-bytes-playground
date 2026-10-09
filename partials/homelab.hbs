@@ -1,24 +1,28 @@
-<div class="bp-lab" aria-label="Illustrated homelab">
-  <div class="bp-orbit" aria-hidden="true"></div>
-  <div class="bp-label">WELCOME TO MY LITTLE CLOUD</div>
-  {{#get "tags" filter="visibility:public" include="count.posts" order="count.posts desc" limit="3"}}{{#foreach tags}}<a class="bp-float bp-float-{{@number}}" href="{{url}}"
-    >{{#match @number 1}}{{> "icon" name="network"}}{{else match @number 2}}{{> "icon" name="database"}}{{else}}{{> "icon" name="activity"}}{{/match}}<span
-      >explore<br /><b>{{name}} ↗</b></span
-    ></a
-  >{{/foreach}}{{/get}}
-  <a class="bp-server" href="#topics" aria-label="Explore blog topics"
-    ><span class="bp-server-top">THE HOMELAB</span
-    ><span class="bp-server-unit"
-      ><span class="bp-server-slots" aria-hidden="true">▰ ▰ ▰</span
-      ><span class="bp-lights" aria-hidden="true">● ●</span></span
-    ><span class="bp-server-unit"
-      ><span class="bp-server-slots" aria-hidden="true">▰ ▰ ▰</span
-      ><span class="bp-lights" aria-hidden="true">● ●</span></span
-    ><span class="bp-server-unit"
-      ><span class="bp-server-slots" aria-hidden="true">▰ ▰ ▰</span
-      ><span class="bp-lights" aria-hidden="true">● ●</span></span
-    ><span class="bp-server-bottom">BUILT TO EXPLORE ↗</span></a
-  >
-  <div class="bp-mini-note">built at home.<br /><em>shared with you.</em></div>
-  <span class="bp-spark" aria-hidden="true">✳</span>
+<div class="bp-lab" aria-hidden="true">
+  <div class="bp-orbit"></div>
+  <div class="bp-label">A LITTLE LAB. ENDLESS POSSIBILITIES.</div>
+  <div class="bp-float bp-float-1">
+    {{> "icon" name="terminal"}}<span>the idea<br /><b>Build.</b></span>
+  </div>
+  <div class="bp-float bp-float-2">
+    {{> "icon" name="activity"}}<span>the experiment<br /><b>Learn.</b></span>
+  </div>
+  <div class="bp-float bp-float-3">
+    {{> "icon" name="mail"}}<span>the discovery<br /><b>Share.</b></span>
+  </div>
+  <div class="bp-server">
+    <span class="bp-server-top">THE IDEA LAB</span>
+    <span class="bp-server-unit"
+      ><span class="bp-server-slots">▰ ▰ ▰</span><span class="bp-lights">● ●</span></span
+    >
+    <span class="bp-server-unit"
+      ><span class="bp-server-slots">▰ ▰ ▰</span><span class="bp-lights">● ●</span></span
+    >
+    <span class="bp-server-unit"
+      ><span class="bp-server-slots">▰ ▰ ▰</span><span class="bp-lights">● ●</span></span
+    >
+    <span class="bp-server-bottom">POWERED BY CURIOSITY</span>
+  </div>
+  <div class="bp-mini-note">ideas take shape.<br /><em>discoveries get shared.</em></div>
+  <span class="bp-spark">✳</span>
 </div>

@@ -1,6 +1,6 @@
 <article class="bp-card {{post_class}}" data-palette="{{slug}}">
   <a href="{{url}}" class="card-art-link" tabindex="-1" aria-hidden="true">
-    {{#match @custom.article_artwork "Feature images"}}{{#if feature_image}}
+    {{#if feature_image}}
     <div class="bp-card-art">
       <img
         src="{{img_url feature_image size="m"}}"
@@ -12,7 +12,7 @@
         height="450"
       />
     </div>
-    {{else}}{{> "card-art"}}{{/if}}{{else}}{{> "card-art"}}{{/match}}</a
+    {{else}}{{> "card-art"}}{{/if}}</a
   >
   <div class="bp-card-copy">
     <div class="card-meta-top">

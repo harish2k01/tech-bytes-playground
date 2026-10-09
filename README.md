@@ -1,6 +1,6 @@
 # Tech Bytes Playground
 
-A custom Ghost theme for hands-on technology writing, created for [Harish's Tech Bytes](https://harish2k01.in). Colorful illustrations, an interactive homelab, and topic discovery introduce the articles; readable typography and a focus mode support longer tutorials.
+A custom Ghost theme for hands-on technology writing, created for [Harish's Tech Bytes](https://harish2k01.in). Colorful illustrations and a decorative idea lab introduce the articles; readable typography and a focus mode support longer tutorials.
 
 ![Homepage rendered from the theme's actual templates with local fixture content](docs/homepage.jpg)
 
@@ -8,8 +8,9 @@ A custom Ghost theme for hands-on technology writing, created for [Harish's Tech
 
 - Light, dark, and system appearance, with a remembered reader preference.
 - Native Ghost search, Portal membership, subscription, account access, and comments.
-- Topic navigation generated from public tags, plus randomized article discovery.
-- Illustrated article cards or original feature images, selected in Ghost Admin.
+- Topic archives through article metadata, plus randomized article discovery.
+- Original article feature images, with a colorful generic fallback for posts without an image.
+- Featured-post selections using Ghost's built-in Featured setting.
 - Automatic article contents, reading progress, copyable code blocks, and sharing.
 - Tag and author archives, Load More with pagination links as a fallback, related posts, and existing post URLs.
 - Ghost editor content, including wide/full-width cards, image zoom and galleries, embeds, and member-gated content.
@@ -33,13 +34,15 @@ Upload `dist/tech-bytes-playground-0.1.0.zip` through Ghost Admin's theme settin
 
 ## Configuration
 
-Ghost Admin exposes hero text, default appearance, card artwork, reading-trail text, newsletter heading, and footer copy. Navigation, logo, secondary navigation, public tags, membership, and comments use the publication's existing Ghost settings.
+Ghost Admin exposes hero text, default appearance, featured-section text, newsletter heading, and footer copy. Logo, secondary navigation, public tags, membership, and comments use the publication's existing Ghost settings. The header contains the brand, search, appearance, and member actions. Primary navigation and the homepage topic strip are omitted.
 
-The reading trail appears when published posts have the internal tag `#trail`. It lists up to eight posts from oldest to newest. Internal tags are not displayed to visitors. Remove that tag to remove a post from the trail. The illustrated homelab links to the three most-used public tags, so topic destinations are not fixed to one publication. Topic navigation includes up to 100 public tags. Surprise Me chooses from the latest 100 published posts.
+The featured section lists up to four published posts marked **Featured** in Ghost, newest first, and disappears when no posts are featured. It does not impose a reading sequence or require an internal tag. The hero artwork is decorative and describes building, learning, and sharing rather than linking to categories that may change. Tag archives display the tag name and optional cover image without a subtitle. Surprise Me chooses from the latest 100 published posts.
 
 The existing `custom-full-feature-image`, `custom-narrow-feature-image`, and `custom-no-feature-image` template names remain available for articles already using them.
 
 ## Automatic releases
+
+Release publication uses a repository-installed GitHub App so releases and tags have a separate bot identity. Configure the Actions variable `RELEASE_APP_ID` and secret `RELEASE_APP_PRIVATE_KEY`. Grant the App **Contents: read/write**, **Workflows: read/write**, and **Pull requests: read**; install it only on the repositories it should manage. The Workflows permission is needed when reserving tags for revisions that add or change workflow files. GitHub's built-in token cannot grant that permission. See [GitHub App authentication](https://docs.github.com/en/enterprise-cloud%40latest/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow).
 
 Every PR targeting the repository's default branch requires exactly one `major`, `minor`, or `patch` label. Other labels are allowed. `path` is a typo and fails the check. A merged PR triggers validation, packaging, and publication of a GitHub Release with the installable ZIP and SHA-256 checksum. No npm package is published.
 

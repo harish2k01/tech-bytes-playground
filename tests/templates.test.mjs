@@ -2,12 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderFixture } from '../scripts/preview.mjs';
 import { posts, tags } from '../scripts/fixtures.mjs';
-test('home uses published data and hides private trail tags', async () => {
+test('home uses published posts and native featured selections', async () => {
   const html = await renderFixture('index', { context: 'home' });
   assert.match(html, /Exploring Sofka/);
   assert.match(html, /href="\/tag\/kubernetes\/"/);
-  assert.match(html, /id=['"]trail-title['"]/);
-  assert.doesNotMatch(html, />#trail</);
+  assert.match(html, /id=['"]featured-title['"]/);
+  assert.doesNotMatch(
+    html,
+    /FOLLOW A READING TRAIL|id=['"]topics['"]|site-navigation|mobile-menu-toggle/,
+  );
+  const hero = html.match(/<div class="bp-lab"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(hero);
+  assert.doesNotMatch(hero, /<a\b|<button\b/);
+  assert.match(hero, /Build\./);
+  assert.match(html, /class="bp-card-art"[\s\S]*?<img/);
   assert.match(html, /data-ghost-search/);
 });
 test('post retains Ghost content, comments and member access boundary', async () => {
@@ -20,6 +28,17 @@ test('post retains Ghost content, comments and member access boundary', async ()
   });
   assert.doesNotMatch(denied, /<code class="language-shell">/);
   assert.match(denied, /This post is for members only/);
+});
+
+test('featured panel disappears without selections and imageless posts use generic artwork', async () => {
+  const html = await renderFixture('index', {
+    context: 'home',
+    fixturePosts: posts.map((post) => ({ ...post, featured: false })),
+    posts: [{ ...posts[0], feature_image: null }],
+  });
+  assert.doesNotMatch(html, /id=['"]featured-title['"]|WORTH ANOTHER LOOK/);
+  assert.match(html, /Field notes/);
+  assert.doesNotMatch(html, /class="bp-card-art"[\s\S]*?<img/);
 });
 test('existing custom image templates keep their intended behavior', async () => {
   const hidden = await renderFixture('custom-no-feature-image', {
@@ -40,6 +59,7 @@ test('archives and subsequent pages do not repeat the homepage hero', async () =
     posts: posts.filter((p) => p.primary_tag === tags[0]),
   });
   assert.match(tag, /<h1>\s*Kubernetes/);
+  assert.doesNotMatch(tag, /Clusters, orchestration|id=['"]topics['"]|site-navigation/);
   const page = await renderFixture('index', {
     context: 'paged',
     pagination: { page: 2, pages: 2, prev: 1 },

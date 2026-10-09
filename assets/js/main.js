@@ -57,19 +57,6 @@ document.querySelector('[data-appearance]')?.addEventListener('click', () => {
   } catch {}
   document.dispatchEvent(new CustomEvent('tb:appearance', { detail: { scheme } }));
 });
-const menu = document.querySelector('.mobile-menu-toggle');
-menu?.addEventListener('click', () => {
-  const expanded = menu.getAttribute('aria-expanded') !== 'true';
-  menu.setAttribute('aria-expanded', String(expanded));
-  menu.setAttribute('aria-label', expanded ? 'Close navigation' : 'Open navigation');
-  shell.classList.toggle('menu-open', expanded);
-});
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && menu?.getAttribute('aria-expanded') === 'true') {
-    menu.click();
-    menu.focus();
-  }
-});
 function decorateCards(scope = document) {
   scope
     .querySelectorAll('.bp-card[data-palette]')
