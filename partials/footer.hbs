@@ -1,17 +1,16 @@
 <footer class="bp-footer">
-  <div>
-    <a href="{{@site.url}}"
-      ><b>{{@site.title}}<span aria-hidden="true">✳</span></b></a
-    >{{#if @custom.footer_note}}
-    <p>{{@custom.footer_note}}</p>
-    {{/if}}<small>© {{date format='YYYY'}} {{@site.title}}</small>
+  <div class="bp-footer-brand">
+    <a href="{{@site.url}}"><b>{{@site.title}}<span aria-hidden="true">✳</span></b></a>
+    {{#if @custom.footer_note}}<p>{{@custom.footer_note}}</p>{{/if}}
+    <small>© {{date format="YYYY"}} {{@site.title}}</small>
   </div>
   <div class="bp-footer-links">
-    {{#match @custom.navigation_location "Header"}}{{else}}{{#if @site.navigation}}
-    <nav class="bp-primary-navigation" aria-label="Main navigation">{{navigation}}</nav>
-    {{/if}}{{/match}}{{#if @site.secondary_navigation}}<nav aria-label="Secondary navigation">{{navigation type="secondary"}}</nav>{{/if}}<a
-      href="{{@site.url}}/rss/"
-      >RSS ↗</a
-    >
+    {{#match @custom.navigation_location "Header"}}{{else}}
+      {{#if @site.navigation}}<nav class="bp-primary-navigation" aria-label="Main navigation">{{navigation}}</nav>{{/if}}
+    {{/match}}
+    <div class="bp-footer-secondary">
+      {{#if @site.secondary_navigation}}<nav aria-label="Secondary navigation">{{navigation type="secondary"}}</nav>{{/if}}
+      <a href="{{@site.url}}/rss/">RSS ↗</a>
+    </div>
   </div>
 </footer>

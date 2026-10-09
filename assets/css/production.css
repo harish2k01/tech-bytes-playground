@@ -498,7 +498,7 @@ html[data-scheme='dark'] {
 #byte-playground .bp-footer small {
   font-size: 13px;
 }
-#byte-playground .bp-footer > div:last-child {
+#byte-playground .bp-footer > .bp-footer-links {
   flex-wrap: wrap;
   font-size: 13px;
 }
@@ -1374,9 +1374,7 @@ h6 {
 #byte-playground .bp-primary-navigation .nav {
   flex-wrap: wrap;
 }
-#byte-playground .bp-footer .bp-primary-navigation {
-  margin-bottom: 14px;
-}
+
 #byte-playground .bp-header .bp-primary-navigation {
   display: block;
 }
@@ -1410,6 +1408,14 @@ h6 {
   gap: 18px;
   justify-items: end;
   min-width: 0;
+  padding-top: 6px;
+}
+#byte-playground .bp-footer-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 16px;
 }
 #byte-playground .bp-footer-links nav {
   margin: 0;
@@ -1455,6 +1461,10 @@ h6 {
   }
   #byte-playground .bp-footer > .bp-footer-links {
     justify-items: start;
+    padding-top: 0;
+  }
+  #byte-playground .bp-footer-secondary {
+    justify-content: flex-start;
   }
   #byte-playground .bp-footer-links .nav {
     justify-content: flex-start;
