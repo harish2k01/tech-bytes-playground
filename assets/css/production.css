@@ -623,7 +623,16 @@ html[data-scheme='dark'] {
   max-height: 85vh;
   overflow: auto;
   padding-bottom: 15px;
+  padding-right: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bp-line) transparent;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
 }
+#byte-playground [data-toc-container]::-webkit-scrollbar { width: 5px; }
+#byte-playground [data-toc-container]::-webkit-scrollbar-track { background: transparent; }
+#byte-playground [data-toc-container]::-webkit-scrollbar-thumb { background: var(--bp-line); border-radius: 10px; }
+#byte-playground [data-toc-container]::-webkit-scrollbar-button { display: none; }
 #byte-playground .bp-reading > [data-toc-container] ol {
   list-style: none;
   padding: 0;
@@ -1688,6 +1697,12 @@ h6 {
 
 #byte-playground .bp-topic-discovery .bp-topic-grid { padding: 0; }
 #byte-playground .bp-footer-links a { font-size: 13px; line-height: 1.6; }
+#byte-playground .bp-all-topics { display: inline-block; margin-top: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+#byte-playground .bp-topics-directory { padding: 45px 5%; }
+#byte-playground .bp-topics-directory h1 { font-size: clamp(32px, 4vw, 54px); margin: 0; }
+#byte-playground .bp-topics-directory > .bp-topic-grid { padding: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; }
+@media (max-width: 900px) { #byte-playground .bp-topics-directory > .bp-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { #byte-playground .bp-topics-directory > .bp-topic-grid { grid-template-columns: 1fr; } }
 #byte-playground .bp-card:hover {
   transform: none;
   box-shadow: none;

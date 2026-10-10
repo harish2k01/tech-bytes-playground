@@ -83,3 +83,7 @@ The homepage discovery panel uses public tags with published posts, counts, and 
 The theme includes subtle button feedback and same-origin page fades in browsers supporting cross-document View Transitions. Reduced-motion preferences disable these effects; other browsers use ordinary navigation.
 
 Upload `assets/branding/publication-icon-512.png` as your Ghost publication icon in Settings → Design & branding. The SVG, 16/32px PNGs, multi-size ICO, and Apple touch icon are included in the repository and theme ZIP. A configured Ghost publication icon takes precedence over the theme favicon fallback. Run `npm run branding` to regenerate these assets from the vector source.
+
+### All topics directory
+
+Publish a page in Ghost with the Topics template selected in Page settings. Its title, URL, excerpt and content remain editable in Ghost. The template lists all public tags; the homepage discovery section automatically adds View all topics once this page is published. No routes.yaml change is required. Unpublishing the page removes the link.

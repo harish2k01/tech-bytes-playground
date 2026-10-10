@@ -18,6 +18,7 @@ import {
 } from 'lucide';
 import { paletteIndex, uniqueHeadingId } from './utilities.js';
 import { watchPortalBranding } from './portal-branding.js';
+import { initTopicsDirectory } from './topics.js';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipe from 'photoswipe';
 const icons = {
@@ -39,6 +40,7 @@ const icons = {
 };
 createIcons({ icons });
 watchPortalBranding();
+initTopicsDirectory();
 // Keep native Ghost navigation, showing shared destinations once in the footer.
 const footerDestinations = new Set();
 document.querySelectorAll('.bp-footer-links a').forEach((link) => {
