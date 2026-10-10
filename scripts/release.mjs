@@ -4,12 +4,9 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { releaseNotesParameters, releaseNotesBody } from './release-notes.mjs';
-import {
-  compareVersions,
-  parseVersion,
-  pendingPullRequests,
-  planRelease,
-} from './release-policy.mjs';
+import { compareVersions, parseVersion, pendingPullRequests } from './release-policy.mjs';
+
+import { planBatch } from './release-batch.mjs';
 
 // Only trusted default-branch code runs with a write token. Every API error fails closed.
 const repository = process.env.GH_REPO;
@@ -25,47 +22,73 @@ const pages = (path) => JSON.parse(run('gh', ['api', '--paginate', '--slurp', pa
 const branch = api(`repos/${repository}`).default_branch;
 const botLogin = 'github-actions[bot]';
 const botId = JSON.parse(run('gh', ['api', `users/${botLogin}`])).id;
-const history = run('git', ['rev-list', '--first-parent', '--reverse', 'HEAD']).split('\n');
-const prs = pendingPullRequests(
-  pages(`repos/${repository}/pulls?state=closed&per_page=100`),
-  branch,
-  history,
-);
-const releases = pages(`repos/${repository}/releases?per_page=100`);
-const tags = run('git', ['tag', '--list'])
-  .split('\n')
-  .filter((tag) => /^v\d+\.\d+\.\d+$/.test(tag));
-tags.forEach(parseVersion);
-const tagSha = (tag) => run('git', ['rev-parse', `${tag}^{commit}`]);
-const reservations = new Map(
-  tags.map((tag) => [
-    tag,
-    run('git', ['for-each-ref', '--format=%(contents)', `refs/tags/${tag}`]),
-  ]),
-);
-let latest = tags.sort(compareVersions).at(-1);
-const publishedPrs = new Set();
-
-for (const pr of prs) {
-  const sha = pr.merge_commit_sha;
-  const plan = planRelease({
-    pr,
+let completed = false;
+// Reserve the current branch snapshot before building; a changed head is retried.
+for (let attempt = 0; attempt < 5; attempt++) {
+  run('git', ['fetch', 'origin', branch, '--tags']);
+  const sha = run('git', ['rev-parse', 'FETCH_HEAD']);
+  const history = run('git', ['rev-list', '--first-parent', '--reverse', sha]).split('\n');
+  const closed = pages(`repos/${repository}/pulls?state=closed&per_page=100`);
+  if (api(`repos/${repository}/git/ref/heads/${branch}`).object.sha !== sha) continue;
+  const prs = pendingPullRequests(closed, branch, history);
+  const releases = pages(`repos/${repository}/releases?per_page=100`);
+  const tags = run('git', ['tag', '--list'])
+    .split('\n')
+    .filter((tag) => /^v\d+\.\d+\.\d+$/.test(tag));
+  tags.forEach(parseVersion);
+  const tagSha = (tag) => run('git', ['rev-parse', `${tag}^{commit}`]);
+  const reservations = new Map(
+    tags.map((tag) => [
+      tag,
+      run('git', ['for-each-ref', '--format=%(contents)', `refs/tags/${tag}`]),
+    ]),
+  );
+  const latest = tags.sort(compareVersions).at(-1);
+  const plan = planBatch({
+    prs,
+    sha,
     releases,
     tags: new Map(tags.map((tag) => [tag, tagSha(tag)])),
-    latest,
     reservations,
-    baseline: latest ? undefined : JSON.parse(run('git', ['show', `${sha}:package.json`])).version,
+    latest,
+    baseline: JSON.parse(run('git', ['show', `${sha}:package.json`])).version,
   });
   if (plan.skip) {
-    publishedPrs.add(pr.number);
-    continue;
+    console.log('No pending merged PRs.');
+    completed = true;
+    break;
   }
-  const { type, release, existingTag, tag, marker } = plan;
-  // A reserved tag is reused after a failed run; never move a tag or overwrite published assets.
+  const { release, existingTag, tag, marker, batch } = plan;
+  const type = batch.type;
+  const sourceSha = batch.sha;
+  if (!existingTag) {
+    if (api(`repos/${repository}/git/ref/heads/${branch}`).object.sha !== sha) continue;
+    run('git', [
+      '-c',
+      `user.name=${botLogin}`,
+      '-c',
+      `user.email=${botId}+${botLogin}@users.noreply.github.com`,
+      'tag',
+      '-a',
+      tag,
+      sha,
+      '-m',
+      marker,
+    ]);
+    try {
+      run('git', ['push', 'origin', `refs/tags/${tag}`]);
+    } catch (error) {
+      if (run('git', ['ls-remote', 'origin', `refs/tags/${tag}`])) throw error;
+      run('git', ['tag', '-d', tag]);
+      if (api(`repos/${repository}/git/ref/heads/${branch}`).object.sha !== sha) continue;
+      throw error;
+    }
+    tags.push(tag);
+  }
   const version = tag.slice(1);
   const workspace = await mkdtemp(join(process.env.RUNNER_TEMP || tmpdir(), 'theme-release-'));
   const build = join(workspace, 'source');
-  run('git', ['worktree', 'add', '--detach', build, sha]);
+  run('git', ['worktree', 'add', '--detach', build, sourceSha]);
   const packagePath = join(build, 'package.json');
   const pkg = JSON.parse(await readFile(packagePath, 'utf8'));
   pkg.version = version;
@@ -84,24 +107,7 @@ for (const pr of prs) {
   const checksumPath = join(build, 'dist', 'SHA256SUMS.txt');
   await writeFile(checksumPath, `${checksum}  ${zipName}\n`);
   const notesPath = join(workspace, 'release-notes.md');
-  if (!existingTag) {
-    run('git', [
-      '-c',
-      `user.name=${botLogin}`,
-      '-c',
-      `user.email=${botId}+${botLogin}@users.noreply.github.com`,
-      'tag',
-      '-a',
-      tag,
-      sha,
-      '-m',
-      `${marker}\nrelease-type: ${type}`,
-    ]);
-    run('git', ['push', 'origin', `refs/tags/${tag}`]);
-    tags.push(tag);
-    reservations.set(tag, `${marker}\nrelease-type: ${type}`);
-  }
-  const noteFields = releaseNotesParameters(tag, sha, tags);
+  const noteFields = releaseNotesParameters(tag, sourceSha, tags);
   const generated = JSON.parse(
     run('gh', [
       'api',
@@ -111,7 +117,18 @@ for (const pr of prs) {
       ...Object.entries(noteFields).flatMap(([name, value]) => ['-f', `${name}=${value}`]),
     ]),
   );
-  await writeFile(notesPath, releaseNotesBody(generated, { zipName, type, sha, marker }));
+  await writeFile(
+    notesPath,
+    releaseNotesBody(generated, {
+      zipName,
+      type,
+      sha: sourceSha,
+      marker:
+        marker +
+        '\n' +
+        batch.prs.map((pr) => `<!-- theme-release pr=${pr.number} sha=${pr.sha} -->`).join('\n'),
+    }),
+  );
   if (!release) {
     // A release belonging to someone else is not adopted or modified.
     run('gh', [
@@ -142,8 +159,9 @@ for (const pr of prs) {
     '--notes-file',
     notesPath,
   ]);
-  latest = tag;
-  publishedPrs.add(pr.number);
-  console.log(`Published ${tag} for PR #${pr.number}`);
+  console.log(`Published ${tag} for PRs ${batch.prs.map((pr) => `#${pr.number}`).join(', ')}`);
+  run('git', ['worktree', 'remove', '--force', build]);
+  completed = true;
+  break;
 }
-console.log(`Release queue reconciled: ${publishedPrs.size} merged PRs have published releases.`);
+if (!completed) throw new Error('Default branch kept advancing; retry the release workflow.');
