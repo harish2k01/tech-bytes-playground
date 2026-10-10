@@ -28,6 +28,15 @@ test('topic discovery uses the supported tag query and hides tags without publis
   const noPosts = await renderFixture('index', { fixtureTags: [empty] });
   assert.doesNotMatch(noPosts, /id="topics"/);
 });
+test('topics directory lists public tags and discovery links only to a published directory page', async () => {
+  const directory = await renderFixture('custom-topics', { context: 'page', post: { title: 'All topics' } });
+  assert.match(directory, /All topics/);
+  for (const tag of tags) assert.ok(directory.includes(tag.name));
+  const absent = await renderFixture('index');
+  assert.doesNotMatch(absent, /View all topics/);
+  const available = await renderFixture('index', { fixturePages: [{ title: 'Topics', url: '/subjects/' }] });
+  assert.match(available, /href="\/subjects\/">View all topics/);
+});
 
 test('Ghost configuration controls navigation placement, accent, and membership actions', async () => {
   const home = await renderFixture('index', { context: 'home' });

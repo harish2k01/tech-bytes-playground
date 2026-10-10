@@ -1,0 +1,12 @@
+{{!< default}}
+<main id="main" class="bp-topics-directory">
+  {{#post}}
+  <header class="bp-section-heading"><div><span class="bp-kicker">FOLLOW YOUR CURIOSITY</span><h1>{{title}}</h1></div></header>
+  {{#if custom_excerpt}}<p>{{custom_excerpt}}</p>{{/if}}
+  {{#if html}}<div class="article-body">{{content}}</div>{{/if}}
+  {{/post}}
+  {{#get "tags" include="count.posts" filter="visibility:public" order="name asc" limit="100"}}
+  <div class="bp-topic-grid" data-topics-grid>{{#foreach tags}}<a href="{{url}}"><span class="bp-topic-heading"><b>{{name}}</b><span aria-hidden="true">↗</span></span>{{#if description}}<p>{{description}}</p>{{/if}}<small>{{plural count.posts empty="No bytes yet" singular="1 byte" plural="% bytes"}}</small></a>{{else}}<p>No public topics yet.</p>{{/foreach}}</div>
+  {{#if pagination.next}}<button class="bp-primary" data-more-topics="{{pagination.next}}">Load more topics</button><p role="status" data-topics-status></p>{{/if}}
+  {{/get}}
+</main>

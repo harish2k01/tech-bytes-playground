@@ -89,6 +89,7 @@ h.registerHelper('get', function (resource, options) {
     throw new Error('Ghost tags do not support filtering by the included count.posts');
   }
   let items = resource === 'tags' ? (options.data.root.fixtureTags ?? tags) : (options.data.root.fixturePosts ?? posts);
+  if (resource === 'pages') items = options.data.root.fixturePages ?? [];
   if (options.hash.filter?.includes('featured:true')) items = items.filter((p) => p.featured);
   if (options.hash.filter?.includes('id:-'))
     items = items.filter((p) => p.id !== options.data.root.post?.id);
@@ -257,6 +258,9 @@ if (
           posts: posts.slice(6),
           pagination: { page: 2, pages: 2, prev: 1 },
         };
+      } else if (segments[0] === 'topics') {
+        template = 'custom-topics';
+        context = { context: 'page', post: { title: 'All topics', custom_excerpt: 'Pick a subject and follow your curiosity.' } };
       } else if (segments[0] === 'about') {
         template = 'page';
         context = {

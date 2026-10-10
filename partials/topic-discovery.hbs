@@ -1,6 +1,6 @@
 {{#get "tags" include="count.posts" filter="visibility:public" order="count.posts desc" limit="6"}}{{#if tags.[0].count.posts}}
 <section class="bp-trail bp-topic-discovery" id="topics" aria-labelledby="topics-title">
-  <div><span class="bp-kicker">A DIFFERENT WAY IN</span><h2 id="topics-title">{{@custom.topics_title}}</h2>{{#if @custom.topics_description}}<p>{{@custom.topics_description}}</p>{{/if}}</div>
+  <div><span class="bp-kicker">A DIFFERENT WAY IN</span><h2 id="topics-title">{{@custom.topics_title}}</h2>{{#if @custom.topics_description}}<p>{{@custom.topics_description}}</p>{{/if}}{{#get "pages" filter="custom_template:custom-topics" limit="1"}}{{#foreach pages}}<a class="bp-all-topics" href="{{url}}">View all topics <span aria-hidden="true">↗</span></a>{{/foreach}}{{/get}}</div>
   <div class="bp-topic-grid">{{#foreach tags}}{{#if count.posts}}<a href="{{url}}"><span class="bp-topic-heading"><b>{{name}}</b><span aria-hidden="true">↗</span></span>{{#if description}}<p>{{description}}</p>{{/if}}<small>{{plural count.posts empty="No bytes yet" singular="1 byte" plural="% bytes"}}</small></a>{{/if}}{{/foreach}}</div>
 </section>
 {{/if}}{{/get}}
