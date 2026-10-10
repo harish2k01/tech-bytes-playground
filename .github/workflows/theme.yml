@@ -11,14 +11,12 @@ jobs:
   theme:
     name: Theme validation
     runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || 'tech-bytes-playground-runner' }}
-    container: node:24-bookworm
     steps:
+      - uses: actions/checkout@v4
       - name: Install workflow tools
         run: |
-          apt-get update
-          apt-get install -y --no-install-recommends ca-certificates curl git gh jq unzip python3 build-essential
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - uses: actions/checkout@v4
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ca-certificates curl git gh jq unzip python3 build-essential
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
