@@ -18,14 +18,12 @@
 html {
   scroll-padding-top: 30px;
   scroll-behavior: smooth;
+  background: light-dark(#fffaf3, #171821);
 }
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  background: #fffaf3;
-}
-html[data-scheme='dark'] body {
-  background: #171821;
+  background: light-dark(#fffaf3, #171821);
 }
 button,
 input,
